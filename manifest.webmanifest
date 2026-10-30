@@ -1,6 +1,6 @@
 {
-  "name": "Swim Multi-Timer",
-  "short_name": "Swim Timer",
+  "name": "Rochdale Leander Stop Watch",
+  "short_name": "RL Stop Watch",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -9,9 +9,9 @@
   "theme_color": "#09111f",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "rl-stopwatch.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
