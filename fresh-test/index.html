@@ -55,9 +55,40 @@
  .bottom{display:none}
 }
 
+
+/* Phone portrait: three fixed lanes visible; iPad and desktop rules unchanged. */
+@media (max-width:600px) and (orientation:portrait){
+ .portrait{display:none!important}
+ .app{height:100dvh;gap:5px;padding:max(5px,env(safe-area-inset-top)) 4px max(5px,env(safe-area-inset-bottom))}
+ .top{min-height:86px;flex:0 0 86px;gap:5px}
+ .clock .time{font-size:clamp(31px,10vw,48px)}
+ .clock.countdown .time{font-size:clamp(50px,15vw,78px)}
+ .clock .meta{font-size:10px;text-align:center}
+ .summary{width:32%;padding:5px;gap:3px}
+ .summary strong{font-size:12px}
+ .summary small{font-size:10px}
+ .toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;flex:0 0 auto}
+ .toolbar button{min-width:0;min-height:34px;padding:5px 2px;font-size:10px;border-radius:7px}
+ .lanes{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 8px)/3);grid-template-columns:none!important;gap:4px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
+ .lane{width:auto;min-width:0;min-height:0;flex:none;padding:3px;gap:3px;scroll-snap-align:start;border-radius:8px}
+ .lanehead{font-size:11px;flex-wrap:wrap;justify-content:center;line-height:1}
+ .lanehead small{font-size:9px;text-align:center}
+ .tiles{gap:4px;min-height:0}
+ .tile{border-radius:7px;padding:1px;min-width:0;min-height:0}
+ .tile .name{font-size:clamp(9px,2.8vw,12px);white-space:nowrap}
+ .tile .split{font-size:clamp(12px,3.8vw,18px)}
+ .tile .sub{font-size:9px}
+ .bottom{font-size:10px;min-height:16px}
+ .bottom span:last-child{display:none}
+ .fields,.laneconfigs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .panel{padding:12px;max-height:95dvh}
+ .results{padding:12px}
+ .result-lane table{min-width:430px}
+}
+
 </style></head><body>
 <div class="portrait">On phones, swipe sideways between lanes.</div>
-<main class="app"><header class="top"><div class="clock" id="clock"><div class="meta" id="clockTitle">READY · LEAD SWIMMER CLOCK</div><div class="time" id="clockTime">00:00.0</div><div class="meta" id="clockExtra">Configure a set to begin</div></div><div class="summary"><strong id="setTitle">Swim Multi-Timer</strong><small id="repText">Rep — / —</small><small id="statusText">Ready to configure</small></div></header><nav class="toolbar"><button class="primary" id="settingsBtn">Set up</button><button class="start" id="startBtn">START</button><button id="undoBtn">↶ Undo last tap</button><button class="stop" id="stopBtn">End set</button><button id="resultsBtn">Results</button><button id="soundBtn">TEST SOUND</button></nav><section id="lanes" class="lanes"></section><footer class="bottom"><span id="message">Tap a swimmer when they finish their rep.</span><span>TEST VERSION 5 · Responsive iPhone layout</span></footer></main>
+<main class="app"><header class="top"><div class="clock" id="clock"><div class="meta" id="clockTitle">READY · LEAD SWIMMER CLOCK</div><div class="time" id="clockTime">00:00.0</div><div class="meta" id="clockExtra">Configure a set to begin</div></div><div class="summary"><strong id="setTitle">Swim Multi-Timer</strong><small id="repText">Rep — / —</small><small id="statusText">Ready to configure</small></div></header><nav class="toolbar"><button class="primary" id="settingsBtn">Set up</button><button class="start" id="startBtn">START</button><button id="undoBtn">↶ Undo last tap</button><button class="stop" id="stopBtn">End set</button><button id="resultsBtn">Results</button><button id="soundBtn">TEST SOUND</button></nav><section id="lanes" class="lanes"></section><footer class="bottom"><span id="message">Tap a swimmer when they finish their rep.</span><span>TEST VERSION 6 · 3 lane phone</span></footer></main>
 <div id="setup" class="setup"><div class="panel"><h1>Configure timing set</h1><p>Send Off is selectable as 5 or 10 seconds per lane. Positions remain fixed for the whole set. Rep times are measured from each swimmer's own scheduled departure.</p><div class="fields"><label class="field">Reps<input id="reps" type="number" min="1" max="100" value="8"></label><label class="field">Distance (m)<input id="distance" type="number" min="1" max="1500" value="50"></label><label class="field">Stroke<select id="stroke"><option>Free</option><option>Back</option><option>Breast</option><option>Fly</option><option>IM</option><option>Choice</option></select></label><label class="field">Turnaround (seconds)<input id="turnaround" type="number" min="10" max="1800" value="60"></label><label class="field">Number of lanes<select id="laneCount"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label></div><div class="laneconfigs" id="laneConfigs"></div><div id="configError" class="error"></div><div class="actions"><button class="barbtn start" id="applyBtn">Use this setup</button><button class="barbtn" id="cancelSetup">Cancel</button></div><p class="note">Important: iPad Safari needs one tap on START to enable audio. Keep the iPad awake during timing; a screen lock or switching apps can interrupt sound. Timing timestamps stay accurate when the screen is active.</p></div></div>
 <div id="results" class="results hidden"><h1>Session results</h1><p id="resultsDesc"></p><div class="actions"><button class="barbtn primary" id="csvBtn">Export CSV</button><button class="barbtn" id="copyBtn">Copy table</button><button class="barbtn" id="backBtn">Back to timer</button></div><div id="resultTable"></div></div>
 <script>
